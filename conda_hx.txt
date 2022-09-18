@@ -1,0 +1,17 @@
+#command line code run in the project "Chemical structure and machine learning: leveraging the power of deep neural networks to aid the development of long-acting drugs for HIV and HIV coinfections"
+#package and corresponding commands can be found at https://github.com/chemprop/chemprop and https://chemprop.readthedocs.io/en/latest/index.html
+
+#hyperparameter optimization
+chemprop_hyperopt --data_path Pk_parameter.csv --dataset_type classification --num_iters 1 --config_save_path Pk_parameter_hyperopt.json
+
+#training classification models and storage; 
+chemprop_train --data_path Pk_parameter_train.csv --dataset_type classification --config_path Pk_parameter_hyperopt.json --save_dir classification_chemprop/Pk_parameter/checkpoints
+
+#predicting on the HIV, TB, Hepatitis B dataset
+chemprop_predict --test_path prediction_dataset.csv --checkpoint_dir classification_chemprop/Pk_parameter/checkpoints --preds_path save_preds.csv
+
+#interpreting on the prediction dataset 
+chemprop_interpret --data_path save_preds.csv --checkpoint_dir classification_chemprop/Pk_parameter/checkpoints --property_id 1
+
+
+
